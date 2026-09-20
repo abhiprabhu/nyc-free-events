@@ -59,6 +59,12 @@ main {
   min-width: 160px;
 }
 
+/* Same specificity as .filter-group's `display: flex`, so it must be
+   declared after it to win and actually hide elements marked [hidden]. */
+.filter-group[hidden] {
+  display: none;
+}
+
 .filter-group.custom-time {
   flex-direction: row;
   align-items: center;
