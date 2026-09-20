@@ -1,3 +1,5 @@
+const API_BASE = 'https://nyc-free-events.onrender.com';
+
 const state = {
   neighborhoods: [],
   allEvents: [],
@@ -58,7 +60,7 @@ function populateTimeDropdowns() {
 }
 
 async function loadNeighborhoods() {
-  const res = await fetch('/api/neighborhoods');
+  const res = await fetch(`${API_BASE}/api/neighborhoods`);
   const data = await res.json();
   state.neighborhoods = data.neighborhoods || [];
   els.neighborhood.innerHTML = '<option value="">All neighborhoods</option>';
@@ -180,7 +182,7 @@ function renderEvents(events) {
 async function loadEvents() {
   els.resultCount.textContent = 'Loading events…';
   const query = buildQuery();
-  const res = await fetch(`/api/events${query ? `?${query}` : ''}`);
+  const res = await fetch(`${API_BASE}/api/events${query ? `?${query}` : ''}`);
   const data = await res.json();
 
   els.resultCount.textContent = `${data.count} event${data.count === 1 ? '' : 's'} found`;
