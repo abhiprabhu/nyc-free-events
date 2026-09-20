@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NYC Free Events Finder</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>🗽 NYC Free Events Finder</h1>
+    <p class="subtitle">
+      Free events around New York City, scraped from
+      <a href="https://www.nycforfree.co/events" target="_blank" rel="noopener">NYC For Free</a>.
+    </p>
+  </header>
+
+  <main>
+    <section class="filters" aria-label="Filters">
+      <div class="filter-group">
+        <label for="borough-select">Borough</label>
+        <select id="borough-select">
+          <option value="">All boroughs</option>
+          <option value="Manhattan">Manhattan</option>
+          <option value="Brooklyn">Brooklyn</option>
+          <option value="Queens">Queens</option>
+          <option value="Bronx">Bronx</option>
+          <option value="Staten Island">Staten Island</option>
+        </select>
+      </div>
+
+      <div class="filter-group" id="neighborhood-group">
+        <label for="neighborhood-select">Manhattan neighborhood</label>
+        <select id="neighborhood-select">
+          <option value="">All neighborhoods</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="date-input">Date</label>
+        <input type="date" id="date-input" />
+      </div>
+
+      <div class="filter-group">
+        <label for="preset-select">Time of day</label>
+        <select id="preset-select">
+          <option value="">Any time</option>
+          <option value="morning">Morning (8 AM – 12 PM)</option>
+          <option value="afternoon">Afternoon (12 PM – 5 PM)</option>
+          <option value="evening">Evening (5 PM – 12 AM)</option>
+          <option value="custom">Custom range…</option>
+        </select>
+      </div>
+
+      <div class="filter-group custom-time" id="custom-time-group" hidden>
+        <label for="start-time-select">From</label>
+        <select id="start-time-select"></select>
+        <label for="end-time-select">To</label>
+        <select id="end-time-select"></select>
+      </div>
+
+      <div class="filter-group">
+        <label for="category-select">Category</label>
+        <select id="category-select">
+          <option value="">All categories</option>
+        </select>
+      </div>
+
+      <button id="reset-btn" type="button">Reset filters</button>
+    </section>
+
+    <section class="status-bar">
+      <span id="result-count">Loading events…</span>
+      <span id="last-updated"></span>
+    </section>
+
+    <section id="events-list" class="events-grid" aria-live="polite"></section>
+  </main>
+
+  <footer>
+    <p>
+      Data source: <a href="https://www.nycforfree.co/events" target="_blank" rel="noopener">nycforfree.co/events</a>.
+      Neighborhoods are approximated from event addresses and may not always be exact.
+    </p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
