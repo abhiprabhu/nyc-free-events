@@ -179,11 +179,28 @@ function renderEvents(events) {
   els.list.appendChild(frag);
 }
 
+let currentEventsRequest = null;
+
 async function loadEvents() {
+  // Cancel any in-flight request so a slow, since-superseded fetch (Render's
+  // free tier can be slow, especially on cold start) can't resolve after a
+  // newer one and clobber the results with stale, unfiltered data.
+  if (currentEventsRequest) currentEventsRequest.abort();
+  const controller = new AbortController();
+  currentEventsRequest = controller;
+
   els.resultCount.textContent = 'Loading events…';
   const query = buildQuery();
-  const res = await fetch(`${API_BASE}/api/events${query ? `?${query}` : ''}`);
-  const data = await res.json();
+  let data;
+  try {
+    const res = await fetch(`${API_BASE}/api/events${query ? `?${query}` : ''}`, {
+      signal: controller.signal,
+    });
+    data = await res.json();
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    throw err;
+  }
 
   els.resultCount.textContent = `${data.count} event${data.count === 1 ? '' : 's'} found`;
   els.lastUpdated.textContent = data.lastUpdated
